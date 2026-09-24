@@ -1,0 +1,294 @@
+-- Загрузка библиотеки Rayfield
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "🔫 Rage Hub | Refilled",
+    LoadingTitle = "Rage Hub",
+    LoadingSubtitle = "by Rage Team",
+    Theme = "Amethyst",
+    ConfigurationSaving = {
+        Enabled = true,
+        FolderName = "RageHub",
+        FileName = "Config"
+    },
+    KeySystem = false
+})
+
+-- Сервисы
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local Lighting = game:GetService("Lighting")
+local LP = Players.LocalPlayer
+
+------------------------------------------------------------
+-- ТАБ: VISUALS
+------------------------------------------------------------
+local VisualsTab = Window:CreateTab("Visuals", 4483362458)
+local SkinsSection = VisualsTab:CreateSection("Скины и Модели")
+
+VisualsTab:CreateButton({
+    Name = "Model Changer",
+    Callback = function()
+        Rayfield:Notify({Title="Model Changer", Content="Открываю меню выбора модели...", Duration=3})
+        -- Здесь логика смены модели персонажа
+    end,
+})
+
+VisualsTab:CreateButton({
+    Name = "Skinchanger",
+    Callback = function()
+        Rayfield:Notify({Title="Skinchanger", Content="Меню скинов открыто", Duration=3})
+    end,
+})
+
+VisualsTab:CreateButton({
+    Name = "Sticker Changer",
+    Callback = function()
+        Rayfield:Notify({Title="Sticker Changer", Content="Меню стикеров открыто", Duration=3})
+    end,
+})
+
+local ESPSection = VisualsTab:CreateSection("ESP / Chams")
+
+VisualsTab:CreateToggle({
+    Name = "Chams / WallHack",
+    CurrentValue = false,
+    Flag = "Chams",
+    Callback = function(v)
+        -- Логика Chams
+    end,
+})
+
+VisualsTab:CreateToggle({
+    Name = "ESP Lines / Boxes",
+    CurrentValue = false,
+    Flag = "ESPBoxes",
+    Callback = function(v) end,
+})
+
+VisualsTab:CreateToggle({
+    Name = "ESP Info",
+    CurrentValue = false,
+    Flag = "ESPInfo",
+    Callback = function(v) end,
+})
+
+local WorldSection = VisualsTab:CreateSection("Мир")
+
+VisualsTab:CreateToggle({
+    Name = "Night Mode",
+    CurrentValue = false,
+    Flag = "NightMode",
+    Callback = function(v)
+        if v then
+            Lighting.Ambient = Color3.fromRGB(20, 20, 20)
+            Lighting.Brightness = 0.5
+            Lighting.ClockTime = 0
+        else
+            Lighting.Ambient = Color3.fromRGB(70, 70, 70)
+            Lighting.Brightness = 2
+            Lighting.ClockTime = 14
+        end
+    end,
+})
+
+VisualsTab:CreateToggle({
+    Name = "Anti-Flash / Anti-Smoke",
+    CurrentValue = false,
+    Flag = "AntiFlash",
+    Callback = function(v) end,
+})
+
+VisualsTab:CreateButton({
+    Name = "Crosshair Custom",
+    Callback = function()
+        Rayfield:Notify({Title="Crosshair", Content="Меню кастомного прицела открыто", Duration=3})
+    end,
+})
+
+------------------------------------------------------------
+-- ТАБ: AIMBOT
+------------------------------------------------------------
+local AimTab = Window:CreateTab("Aimbot", 4483362458)
+local AimSection = AimTab:CreateSection("Основное")
+
+AimTab:CreateToggle({
+    Name = "Aimbot",
+    CurrentValue = false,
+    Flag = "Aimbot",
+    Callback = function(v) end,
+})
+
+AimTab:CreateToggle({
+    Name = "Silent Aim",
+    CurrentValue = false,
+    Flag = "SilentAim",
+    Callback = function(v) end,
+})
+
+AimTab:CreateSlider({
+    Name = "FOV",
+    Range = {0, 500},
+    Increment = 5,
+    Suffix = "°",
+    CurrentValue = 90,
+    Flag = "FOV",
+    Callback = function(v) end,
+})
+
+AimTab:CreateSlider({
+    Name = "Smooth",
+    Range = {0, 100},
+    Increment = 1,
+    Suffix = "%",
+    CurrentValue = 30,
+    Flag = "Smooth",
+    Callback = function(v) end,
+})
+
+AimTab:CreateDropdown({
+    Name = "Aim Bone",
+    Options = {"Head", "UpperTorso", "LowerTorso", "HumanoidRootPart", "Nearest"},
+    CurrentOption = {"Head"},
+    Flag = "AimBone",
+    Callback = function(opt) end,
+})
+
+local AimBot2 = AimTab:CreateSection("Авто-атака")
+
+AimTab:CreateToggle({
+    Name = "Trigger Bot",
+    CurrentValue = false,
+    Flag = "TriggerBot",
+    Callback = function(v) end,
+})
+
+AimTab:CreateToggle({
+    Name = "Knife Bot",
+    CurrentValue = false,
+    Flag = "KnifeBot",
+    Callback = function(v) end,
+})
+
+------------------------------------------------------------
+-- ТАБ: MOVEMENT
+------------------------------------------------------------
+local MoveTab = Window:CreateTab("Movement", 4483362458)
+local MoveSection = MoveTab:CreateSection("Движение")
+
+MoveTab:CreateToggle({
+    Name = "Third Person View",
+    CurrentValue = false,
+    Flag = "TPV",
+    Callback = function(v)
+        LP.CameraMode = v and Enum.CameraMode.Classic or Enum.CameraMode.Classic
+        if v then
+            LP.CameraMaxZoomDistance = 20
+            LP.CameraMinZoomDistance = 10
+        else
+            LP.CameraMaxZoomDistance = 0
+            LP.CameraMinZoomDistance = 0
+        end
+    end,
+})
+
+MoveTab:CreateToggle({
+    Name = "BunnyHop (Bhop)",
+    CurrentValue = false,
+    Flag = "Bhop",
+    Callback = function(v) end,
+})
+
+MoveTab:CreateSlider({
+    Name = "SpeedHack (скорость)",
+    Range = {16, 200},
+    Increment = 1,
+    Suffix = " studs",
+    CurrentValue = 16,
+    Flag = "Speed",
+    Callback = function(v)
+        if LP.Character and LP.Character:FindFirstChildOfClass("Humanoid") then
+            LP.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = v
+        end
+    end,
+})
+
+MoveTab:CreateToggle({
+    Name = "FlyHack",
+    CurrentValue = false,
+    Flag = "Fly",
+    Callback = function(v) end,
+})
+
+local CombatMove = MoveTab:CreateSection("Combat Movement")
+
+MoveTab:CreateToggle({
+    Name = "Fake Lag",
+    CurrentValue = false,
+    Flag = "FakeLag",
+    Callback = function(v) end,
+})
+
+MoveTab:CreateToggle({
+    Name = "Anti-Aim",
+    CurrentValue = false,
+    Flag = "AntiAim",
+    Callback = function(v) end,
+})
+
+MoveTab:CreateButton({
+    Name = "Teleport Kill",
+    Callback = function()
+        Rayfield:Notify({Title="Teleport Kill", Content="Ищу ближайшую цель...", Duration=3})
+    end,
+})
+
+------------------------------------------------------------
+-- ТАБ: MISC / WEAPON
+------------------------------------------------------------
+local MiscTab = Window:CreateTab("Weapon & Misc", 4483362458)
+local WeaponSection = MiscTab:CreateSection("Оружие")
+
+MiscTab:CreateToggle({
+    Name = "No Recoil",
+    CurrentValue = false,
+    Flag = "NoRecoil",
+    Callback = function(v) end,
+})
+
+MiscTab:CreateToggle({
+    Name = "No Spread",
+    CurrentValue = false,
+    Flag = "NoSpread",
+    Callback = function(v) end,
+})
+
+MiscTab:CreateToggle({
+    Name = "Inf Ammo / Rapid Fire",
+    CurrentValue = false,
+    Flag = "InfAmmo",
+    Callback = function(v) end,
+})
+
+local RadarSection = MiscTab:CreateSection("Радар")
+
+MiscTab:CreateToggle({
+    Name = "Radar Hack",
+    CurrentValue = false,
+    Flag = "Radar",
+    Callback = function(v) end,
+})
+
+------------------------------------------------------------
+-- Завершение
+------------------------------------------------------------
+Rayfield:Notify({
+    Title = "Rage Hub",
+    Content = "Скрипт успешно загружен!",
+    Duration = 5,
+    Image = 4483362458,
+})
+
+-- Закрытие окна
+local ScreenGui = LP:WaitForChild("PlayerGui"):WaitForChild("Rayfield")
+ScreenGui.Enabled = false -- или true если нужен сразу открытым
